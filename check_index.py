@@ -2,13 +2,13 @@
 
 from src.rag_engine import RAGEngine
 
-# Initialize engine
+
 engine = RAGEngine()
 
-# Get the vector store
+
 vector_store = engine.vector_store_manager._get_vector_store()
 
-# Get collection metadata
+
 collection = vector_store._collection
 
 print("=" * 60)

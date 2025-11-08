@@ -189,20 +189,12 @@ class RAGEngine:
         return self.vector_store_manager.get_collection_info()
     
     def reset_database(self) -> bool:
-        """
-        Delete all documents from the vector database.
-        
-        Returns:
-            True if reset was successful
-            
-        Raises:
-            Exception: If reset fails
-        """
+       
         try:
-            # Clear all documents from the collection (doesn't delete the database files)
+          
             self.vector_store_manager.clear_all_documents()
             
-            # Clear conversation history
+           
             self.clear_conversation_history()
             return True
         except Exception as e:

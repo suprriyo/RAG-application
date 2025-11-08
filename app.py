@@ -5,10 +5,10 @@ import time
 from datetime import datetime
 from typing import Optional
 
-# Import streamlit
+
 import streamlit as st
 
-# MUST be the first Streamlit command!
+
 st.set_page_config(
     page_title="RAG QA System",
     page_icon="📚",
@@ -16,32 +16,31 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ===== API KEY CONFIGURATION =====
-# Now we can safely access st.secrets after set_page_config
+
 try:
-    # Try to load from Streamlit secrets (cloud deployment)
+    
     if 'OPENAI_API_KEY' in st.secrets:
         os.environ['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
 except (FileNotFoundError, AttributeError):
-    # Secrets file doesn't exist - running locally
+    
     pass
 
-# Load from .env file for local development
+
 from dotenv import load_dotenv
 load_dotenv()
 
-# Verify API key is loaded
+
 if not os.getenv('OPENAI_API_KEY'):
-    st.error("⚠️ OpenAI API key not found!")
+    st.error(" OpenAI API key not found!")
     st.info("Please configure OPENAI_API_KEY in .env file (local) or Streamlit Cloud secrets (cloud)")
     st.stop()
-# ===== END API KEY CONFIGURATION =====
+
 
 from src.rag_engine import RAGEngine, DocumentInfo
 from src.config import Config, ConfigError
 from src.answer_generator import Answer
 
-# Custom CSS for better UI
+
 st.markdown("""
     <style>
     .main-header {
@@ -115,18 +114,18 @@ def initialize_session_state():
 
 def display_header():
     """Display the main header."""
-    st.markdown('<div class="main-header">📚 RAG Question Answering System</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header"> RAG Question Answering System</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Upload educational PDFs and ask questions about their content</div>', unsafe_allow_html=True)
     
-    # Show storage warning if deployed on Streamlit Cloud
+    
     try:
         if 'OPENAI_API_KEY' in st.secrets:
             st.info("""
-                📌 **Demo Mode:** Uploaded documents are temporary and will be reset when the app restarts 
-                (typically every 24-48 hours). For production use with permanent storage, please contact support.
+                 **Demo Mode:** Uploaded documents are temporary and will be reset when the app restarts 
+
             """, icon="ℹ️")
     except (FileNotFoundError, AttributeError):
-        # Running locally - no warning needed
+        
         pass
 
 
@@ -191,7 +190,7 @@ def display_sidebar():
 
 def handle_pdf_upload():
   
-    st.subheader("📤 Upload PDF Document")
+    st.subheader("Please Upload PDF Document")
     
     uploaded_file = st.file_uploader(
         "Choose a PDF file",
@@ -262,7 +261,7 @@ def handle_pdf_upload():
                 """, unsafe_allow_html=True)
             
             finally:
-                # Clean up temporary file
+                
                 if os.path.exists(temp_path):
                     os.remove(temp_path)
 
